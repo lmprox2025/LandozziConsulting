@@ -1,0 +1,1139 @@
+<!--
+  Versione raffinata del sito one‑page per Landozzi Consulting Srl.
+
+  Sono stati applicati miglioramenti di design ispirati al layout di Studio Pitagora:
+  - Nuova palette cromatica più sofisticata (vedi variabili CSS) con blu navy,
+    teal e accenti corallo, per un aspetto aziendale elegante.
+  - Aggiunto pairing tipografico serif/sans serif (Merriweather per titoli,
+    Open Sans per il corpo) tramite Google Fonts.
+  - Ampliati gli spazi bianchi e migliorata la struttura visiva con
+    sezioni alternate.
+  - Implementate animazioni leggere per rivelare le sezioni al scroll
+    mediante IntersectionObserver e classi CSS, senza dipendere da librerie esterne.
+  - Abilitato smooth scrolling nativo e transizioni delicate per link e bottoni.
+  - Aggiunta una sezione "Pro Tip" con suggerimenti su hosting e
+    miglioramenti tramite AOS.js/GSAP, come richiesto.
+  - Conservata la struttura dei contenuti originale e la funzionalità del chatbot.
+-->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landozzi Consulting Srl – Consulenza integrata</title>
+    <!-- Preconnessione ai server Google Fonts per prestazioni migliori -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Caricamento dei font Merriweather (serif) e Open Sans (sans-serif) -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /*
+          Nuova palette cromatica:
+          - --primary-color: blu navy per header e footer
+          - --secondary-color: teal/grigio bluastro per elementi evidenziati
+          - --accent-color: corallo tenue per CTA e dettagli
+          - --light-bg: bianco crema per sfondi chiari
+          - --dark-bg: azzurro molto chiaro per sezioni alternate
+          - --text-color: grigio antracite per la leggibilità
+          - --muted-text: grigio medio per testi secondari
+        */
+        :root {
+            --primary-color: #0A1F44;
+            --secondary-color: #167BAF;
+            --accent-color: #E29578;
+            --light-bg: #FAF9F6;
+            --dark-bg: #EFF3F8;
+            --text-color: #2F3E46;
+            --muted-text: #6C7A89;
+            /* Colore di bordo per card e box */
+            --border-color: #DDE5ED;
+        }
+        /* Reset di base */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            /* Scorrimento fluido per ancore interne */
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        h2 {
+            font-size: 2.2rem;
+        }
+        h3 {
+            font-size: 1.4rem;
+        }
+        p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--muted-text);
+        }
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--accent-color);
+        }
+        ul {
+            list-style: none;
+        }
+        /* Top bar con contatti e social */
+        .top-bar {
+            background-color: var(--dark-bg);
+            color: var(--muted-text);
+            font-size: 0.85rem;
+        }
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 90%;
+        }
+        .top-bar .social-top a {
+            margin-left: 0.5rem;
+            background-color: var(--secondary-color);
+            color: #fff;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        /* Header principale */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 90%;
+        }
+        .nav-logo {
+            font-size: 1.8rem;
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+        }
+        nav ul {
+            display: flex;
+            gap: 2rem;
+        }
+        nav li a {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.5rem 0;
+        }
+        /* Hero raffinato */
+        .hero {
+            /* Hero con immagine di sfondo professionale e overlay */
+            background-image: linear-gradient(120deg, rgba(10,31,68,0.8), rgba(22,123,175,0.8)), url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+            padding: 8rem 0;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #f5f5f5;
+        }
+        .cta-btn {
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 0.8rem 1.8rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .cta-btn:hover {
+            /* Hover personalizzato: colore schiarito senza funzioni SCSS */
+            background-color: #E5A085;
+        }
+        /* Section base */
+        section {
+            padding: 5rem 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 90%;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title h2 {
+            margin-bottom: 0.5rem;
+        }
+        .section-title p {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        /* Alternanza di sfondi per differenziare le sezioni */
+        .light-section {
+            background-color: var(--light-bg);
+        }
+        .dark-section {
+            background-color: var(--dark-bg);
+        }
+        /* Griglia servizi raffinata */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .service-item {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+        .service-item:hover {
+            transform: translateY(-5px);
+        }
+        .service-item h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+        }
+        .service-item p {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        .service-item ul {
+            padding-left: 1.2rem;
+        }
+        .service-item li {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        /* Settori badges */
+        .clients {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+        }
+        .clients li {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+        }
+        /* Metodo steps */
+        .method-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+        }
+        .method-step {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .method-step .step-number {
+            font-size: 2.4rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        .method-step h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        .method-step p {
+            font-size: 0.9rem;
+        }
+        /* Testimonianze */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .testimonial {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .testimonial::before {
+            content: '\201C';
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            position: absolute;
+            top: -20px;
+            left: 15px;
+        }
+        .testimonial p {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: var(--muted-text);
+        }
+        .testimonial .author {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+        /* FAQ Accordion */
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+        .faq-question {
+            padding: 1rem;
+            cursor: pointer;
+            position: relative;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        .faq-question::after {
+            content: '+';
+            position: absolute;
+            right: 1rem;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .faq-question.active::after {
+            content: '-';
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            background-color: #fff;
+            transition: max-height 0.4s ease;
+            padding: 0 1rem;
+        }
+        .faq-answer p {
+            padding: 0.6rem 0;
+            font-size: 0.9rem;
+        }
+        /* === Sezioni aggiuntive per i punti di forza, il team e le news === */
+        .strengths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+        }
+        .strength-card {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+        .strength-card:hover {
+            transform: translateY(-4px);
+        }
+        .strength-card h4 {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        .strength-card p {
+            font-size: 0.95rem;
+            color: var(--muted-text);
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+        }
+        .team-member {
+            text-align: center;
+        }
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        .team-member h4 {
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+        .team-member p {
+            font-size: 0.9rem;
+            color: var(--muted-text);
+        }
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+        .news-item {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+        .news-item:hover {
+            transform: translateY(-4px);
+        }
+        .news-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            color: var(--secondary-color);
+        }
+        .news-item small {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--muted-text);
+            margin-bottom: 0.5rem;
+        }
+        .news-item p {
+            font-size: 0.9rem;
+            margin-bottom: 0.7rem;
+            color: var(--muted-text);
+        }
+        .news-item a {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        .news-item a:hover {
+            text-decoration: underline;
+        }
+        /* Contatti */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .contact-grid label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        .contact-grid input,
+        .contact-grid textarea {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .contact-grid textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .contact-grid button {
+            grid-column: span 2;
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .contact-grid button:hover {
+            background-color: darken(var(--accent-color), 10%);
+        }
+        .contact-info-box {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+        }
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.85rem;
+        }
+        footer a {
+            color: #fff;
+            margin: 0 0.3rem;
+            text-decoration: underline;
+        }
+        /* Chatbot minimalista aggiornato */
+        #chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background-color: var(--accent-color);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        #chatbot-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 320px;
+            max-height: 400px;
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+        }
+        #chatbot-header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 0.7rem;
+            font-size: 0.9rem;
+        }
+        #chatbot-messages {
+            flex: 1;
+            padding: 0.5rem;
+            overflow-y: auto;
+            background-color: var(--light-bg);
+        }
+        .chat-message {
+            display: flex;
+            margin-bottom: 0.7rem;
+        }
+        .chat-message .chat-bubble {
+            padding: 0.5rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            max-width: 80%;
+        }
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+        .chat-message.user .chat-bubble {
+            background-color: var(--accent-color);
+            color: #fff;
+            border-bottom-right-radius: 0;
+        }
+        .chat-message.ai {
+            justify-content: flex-start;
+        }
+        .chat-message.ai .chat-bubble {
+            background-color: #e8f0fe;
+            color: var(--text-color);
+            border-bottom-left-radius: 0;
+        }
+        #chatbot-input-area {
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            padding: 0.5rem;
+        }
+        #chatbot-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        #chatbot-send {
+            margin-left: 0.5rem;
+            padding: 0.5rem 0.8rem;
+            background-color: var(--secondary-color);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #chatbot-send:hover {
+            background-color: var(--primary-color);
+        }
+        /* Animazioni di rivelazione: gli elementi con classe .reveal
+           saranno invisibili all'avvio e appariranno con un fade/slide
+           quando entrano nel viewport. */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Media queries per mobile */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            #chatbot-window {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra superiore con contatti e social -->
+    <div class="top-bar">
+        <div class="container">
+            <span class="contact-info">
+                <span>📍 Monteriggioni (SI)</span>
+                <span>| Tel. 0577 555208</span>
+                <span>| <a href="mailto:info@landozziconsultingsrl.com">info@landozziconsultingsrl.com</a></span>
+            </span>
+            <span class="social-top">
+                <a href="#" aria-label="Facebook">F</a>
+                <a href="#" aria-label="LinkedIn">in</a>
+                <a href="#" aria-label="Instagram">I</a>
+            </span>
+        </div>
+    </div>
+    <!-- Header di navigazione -->
+    <header>
+        <div class="nav-container">
+            <div class="nav-logo">Landozzi Consulting</div>
+            <nav>
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#chi-siamo">Chi Siamo</a></li>
+                    <li><a href="#punti-forza">Punti di forza</a></li>
+                    <li><a href="#servizi">Servizi</a></li>
+                    <li><a href="#settori">Settori</a></li>
+                    <li><a href="#metodo">Metodo</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#testimonianze">Testimonianze</a></li>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contatti">Contatti</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Hero con titolo e sottotitolo -->
+    <section id="hero" class="hero">
+        <div class="container reveal">
+            <h1>Da oltre vent'anni al fianco delle imprese</h1>
+            <p>Progettazione, conformità normativa, sicurezza sul lavoro, protezione dei dati, cybersecurity e formazione professionale in tutta Italia.</p>
+            <a href="#contatti" class="cta-btn">Richiedi una consulenza</a>
+        </div>
+    </section>
+    <!-- Chi siamo -->
+    <section id="chi-siamo" class="light-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Chi siamo</h2>
+                <p>La nostra storia e i nostri valori</p>
+            </div>
+            <div class="about-container reveal">
+                <div class="about-text">
+                    <p>Landozzi Consulting Srl nasce dall’esperienza di professionisti nel campo della sicurezza sul lavoro, della protezione dei dati e della consulenza sanitaria. Con sede a Monteriggioni, operiamo in tutta la penisola fornendo servizi integrati per imprese di ogni dimensione e per strutture sanitarie.</p>
+                    <p>Nel corso degli anni abbiamo ampliato le nostre competenze abbracciando aree come la <strong>cybersecurity</strong>, l’igiene degli alimenti e l’implementazione di sistemi di gestione certificati. La nostra squadra comprende ingegneri, tecnici della prevenzione, formatori, legali e specialisti IT che collaborano per offrire soluzioni su misura.</p>
+                    <p>La missione di Landozzi Consulting è diventare partner di fiducia per tutte le esigenze di compliance e risk management, dalla valutazione iniziale al monitoraggio continuo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Punti di forza -->
+    <section id="punti-forza" class="light-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>I nostri punti di forza</h2>
+                <p>Cosa ci rende il partner ideale</p>
+            </div>
+            <div class="strengths-grid">
+                <div class="strength-card reveal">
+                    <h4>Esperienza pluriennale</h4>
+                    <p>Oltre vent’anni di attività a fianco di aziende, PMI e strutture sanitarie.</p>
+                </div>
+                <div class="strength-card reveal">
+                    <h4>Approccio integrato</h4>
+                    <p>Copriamo sicurezza, privacy, cybersecurity, HACCP, sistemi di gestione e formazione.</p>
+                </div>
+                <div class="strength-card reveal">
+                    <h4>Qualità certificata</h4>
+                    <p>Operiamo secondo standard ISO (9001, 14001, 45001, 27001) e normative vigenti.</p>
+                </div>
+                <div class="strength-card reveal">
+                    <h4>Professionisti multidisciplinari</h4>
+                    <p>Il nostro team comprende ingegneri, tecnici della prevenzione, legali, formatori e informatici.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servizi -->
+    <section id="servizi" class="dark-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>I nostri servizi</h2>
+                <p>Consulenza specialistica e formazione professionale</p>
+            </div>
+            <div class="services-grid">
+                <!-- Ogni elemento ha classe reveal per animazione -->
+                <div class="service-item reveal">
+                    <h3>Sicurezza e salute sul lavoro</h3>
+                    <p>Gestiamo tutti gli adempimenti previsti dal D.Lgs. 81/08 e successive modifiche.</p>
+                    <ul>
+                        <li>Valutazione rischi e redazione DVR</li>
+                        <li>Analisi rischi specifici (stress, chimico, movimenti, rumore)</li>
+                        <li>Coordinamento cantieri e documenti (PSC, POS, Pi.M.U.S.)</li>
+                        <li>Misurazioni strumentali e campionamenti ambientali</li>
+                        <li>Incarichi esterni come RSPP e gestione amianto</li>
+                    </ul>
+                </div>
+                <div class="service-item reveal">
+                    <h3>Privacy e GDPR</h3>
+                    <p>Aiutiamo la tua azienda ad adeguarsi al Regolamento UE 2016/679.</p>
+                    <ul>
+                        <li>Formazione per titolari, responsabili e incaricati</li>
+                        <li>Audit di conformità e report preliminari</li>
+                        <li>Redazione di informative, contratti e DPIA</li>
+                        <li>Privacy e cookie policy, pratiche di videosorveglianza</li>
+                        <li>Assunzione incarico DPO</li>
+                    </ul>
+                </div>
+                <div class="service-item reveal">
+                    <h3>Cybersecurity</h3>
+                    <p>Soluzioni di difesa informatica contro attacchi e violazioni.</p>
+                    <ul>
+                        <li>Protezione da ransomware, phishing e minacce zero‑day</li>
+                        <li>Valutazione dei rischi e piani di sicurezza IT</li>
+                        <li>Formazione del personale e implementazione sistemi</li>
+                        <li>Conformità NIS2, GDPR e ISO 27001</li>
+                        <li>Piani di Disaster Recovery, Business Continuity e ruolo CSIRT</li>
+                    </ul>
+                </div>
+                <div class="service-item reveal">
+                    <h3>Igiene alimentare (HACCP)</h3>
+                    <p>Supporto completo per la sicurezza alimentare.</p>
+                    <ul>
+                        <li>Redazione del Manuale HACCP e procedure operative</li>
+                        <li>Formazione per addetti e responsabili del piano</li>
+                        <li>Campionamenti, tamponi e analisi di acque e alimenti</li>
+                        <li>Piani di sicurezza delle acque e rischio legionellosi</li>
+                        <li>Moduli formativi su misura e aggiornamenti</li>
+                    </ul>
+                </div>
+                <div class="service-item reveal">
+                    <h3>Sistemi di certificazione</h3>
+                    <p>Implementiamo e manteniamo sistemi di gestione.</p>
+                    <ul>
+                        <li>Supporto per ISO 9001, 14001, 22000, 27000, 45001</li>
+                        <li>Certificazione energetica e ISO 50001</li>
+                        <li>Preparazione alla certificazione e audit interni</li>
+                        <li>Gestione dell’accreditamento e mantenimento requisiti</li>
+                        <li>Monitoraggio e aggiornamento continuo</li>
+                    </ul>
+                </div>
+                <div class="service-item reveal">
+                    <h3>Strutture sanitarie e sociosanitarie</h3>
+                    <p>Consulenza specializzata per autorizzazione e accreditamento.</p>
+                    <ul>
+                        <li>Gestione pratiche per ambulatori, laboratori, cliniche, RSA</li>
+                        <li>Redazione manuali, procedure e protocolli</li>
+                        <li>Consulenza per ampliamenti e trasformazioni</li>
+                        <li>Incarico Esperto sicurezza laser e Facilitatore rischio clinico</li>
+                        <li>Corsi su rischio clinico, ICA, laser e aggressioni</li>
+                    </ul>
+                </div>
+                <div class="service-item reveal">
+                    <h3>Formazione professionale</h3>
+                    <p>Corsi obbligatori e specialistici per tutti i ruoli.</p>
+                    <ul>
+                        <li>Corsi RSPP/ASPP, lavoratori, dirigenti, preposti, RLS</li>
+                        <li>Primo soccorso e antincendio con aggiornamenti</li>
+                        <li>Formazione specialistica: ambienti confinati, elettricità, quota, ponteggi</li>
+                        <li>Uso in sicurezza di motoseghe, carrelli elevatori, gru, piattaforme, macchine</li>
+                        <li>Corsi HACCP, privacy, piscine, area sanitaria e socio‑sanitaria</li>
+                    </ul>
+                </div>
+                <div class="service-item reveal">
+                    <h3>Altri servizi specialistici</h3>
+                    <p>Soluzioni trasversali per ogni esigenza tecnica.</p>
+                    <ul>
+                        <li>Gestione di piscine pubbliche/private e prevenzione legionellosi</li>
+                        <li>Pratiche di prevenzione incendi e pratiche INAIL</li>
+                        <li>Verifiche periodiche apparecchi di sollevamento</li>
+                        <li>Consulenza logistica, progettazione impianti e layout</li>
+                        <li>Risk management sanitario/industriale e project management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Settori destinatari -->
+    <section id="settori" class="light-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Settori e destinatari</h2>
+                <p>A chi ci rivolgiamo</p>
+            </div>
+            <ul class="clients reveal">
+                <li>Aziende di ogni settore</li>
+                <li>PMI e microimprese</li>
+                <li>Strutture sanitarie e sociosanitarie</li>
+                <li>Enti pubblici e amministrazioni</li>
+                <li>Operatori alimentari e ristorazione</li>
+                <li>Professionisti e studi tecnici</li>
+                <li>Imprese ad alto rischio</li>
+                <li>Organizzazioni che trattano dati</li>
+            </ul>
+        </div>
+    </section>
+    <!-- Metodo di lavoro -->
+    <section id="metodo" class="dark-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Il nostro metodo</h2>
+                <p>Un processo strutturato per risultati concreti</p>
+            </div>
+            <div class="method-steps">
+                <div class="method-step reveal">
+                    <div class="step-number">1</div>
+                    <h4>Analisi</h4>
+                    <p>Raccolta informazioni, valutazione del contesto e identificazione dei rischi.</p>
+                </div>
+                <div class="method-step reveal">
+                    <div class="step-number">2</div>
+                    <h4>Pianificazione</h4>
+                    <p>Definizione degli obiettivi, del piano d’azione e delle risorse necessarie.</p>
+                </div>
+                <div class="method-step reveal">
+                    <div class="step-number">3</div>
+                    <h4>Attuazione</h4>
+                    <p>Implementazione delle misure: documenti, procedure, formazione, soluzioni tecniche.</p>
+                </div>
+                <div class="method-step reveal">
+                    <div class="step-number">4</div>
+                    <h4>Formazione</h4>
+                    <p>Trasferiamo le competenze al personale con corsi dedicati e pratici.</p>
+                </div>
+                <div class="method-step reveal">
+                    <div class="step-number">5</div>
+                    <h4>Monitoraggio</h4>
+                    <p>Verifica periodica dei risultati, audit e miglioramento continuo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Team -->
+    <section id="team" class="light-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Il nostro team</h2>
+                <p>Professionalità e competenze al tuo servizio</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member reveal">
+                    <img src="https://images.unsplash.com/photo-1603415526960-f5cbe641d07b?auto=format&fit=crop&w=300&q=80" alt="Foto membro team">
+                    <h4>Luca B.</h4>
+                    <p>Responsabile sicurezza sul lavoro</p>
+                </div>
+                <div class="team-member reveal">
+                    <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a0?auto=format&fit=crop&w=300&q=80" alt="Foto membro team">
+                    <h4>Maria S.</h4>
+                    <p>Esperta privacy e DPO</p>
+                </div>
+                <div class="team-member reveal">
+                    <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=300&q=80" alt="Foto membro team">
+                    <h4>Giovanni R.</h4>
+                    <p>Specialista cybersecurity</p>
+                </div>
+                <div class="team-member reveal">
+                    <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=300&q=80" alt="Foto membro team">
+                    <h4>Elisa G.</h4>
+                    <p>Consulente HACCP e sistemi di gestione</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonianze -->
+    <section id="testimonianze" class="light-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Testimonianze</h2>
+                <p>Cosa dicono i nostri clienti</p>
+            </div>
+            <div class="testimonials">
+                <div class="testimonial reveal">
+                    <p>“Landozzi Consulting ci ha supportato nella certificazione ISO 9001, portando ordine e qualità ai nostri processi. Un team affidabile e competente.”</p>
+                    <div class="author">Marco R. – Direttore operativo, azienda manifatturiera</div>
+                </div>
+                <div class="testimonial reveal">
+                    <p>“Per la nostra clinica abbiamo ottenuto l’accreditamento regionale grazie alla loro esperienza. La formazione per il personale è stata chiara e coinvolgente.”</p>
+                    <div class="author">Dr.ssa Elisa F. – Responsabile struttura sanitaria</div>
+                </div>
+                <div class="testimonial reveal">
+                    <p>“Grazie al loro DPO e al servizio di cybersecurity, la nostra PMI è finalmente conforme al GDPR e protetta dalle minacce informatiche.”</p>
+                    <div class="author">Antonio L. – Amministratore PMI</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- News e Blog -->
+    <section id="news" class="dark-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>News &amp; Blog</h2>
+                <p>Rimani aggiornato sulle novità e le normative</p>
+            </div>
+            <div class="news-grid">
+                <div class="news-item reveal">
+                    <small>07 novembre 2025</small>
+                    <h4>Bando Innovazione Strategica</h4>
+                    <p>La Regione Toscana finanzia fino all’85% progetti innovativi nelle MPMI del settore moda. Scopri requisiti e modalità.</p>
+                    <a href="#">Leggi di più →</a>
+                </div>
+                <div class="news-item reveal">
+                    <small>09 ottobre 2025</small>
+                    <h4>Formazione gratuita finanziata</h4>
+                    <p>Opportunità per le aziende: corsi gratuiti finanziati dalla Regione per sicurezza, contabilità e altre competenze professionali.</p>
+                    <a href="#">Leggi di più →</a>
+                </div>
+                <div class="news-item reveal">
+                    <small>23 luglio 2025</small>
+                    <h4>Bando SRD01 Toscana</h4>
+                    <p>Contributi regionali per nuovi impianti irrigui aziendali fino all’85% di rimborso. Ecco come partecipare al bando.</p>
+                    <a href="#">Leggi di più →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FAQ -->
+    <section id="faq" class="dark-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Domande frequenti</h2>
+                <p>Le risposte alle domande più comuni</p>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">Quanto costano i vostri servizi?</div>
+                <div class="faq-answer"><p>I costi variano in base a dimensione e complessità dell’azienda e all’ambito di intervento. Contattaci per un preventivo gratuito e personalizzato.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">In quali normative siete specializzati?</div>
+                <div class="faq-answer"><p>Siamo esperti di D.Lgs. 81/08, GDPR, NIS2, Pacchetto Igiene, normative regionali sanitarie e standard ISO (9001, 14001, 22000, 27000, 45001, 50001).</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">Fate corsi online?</div>
+                <div class="faq-answer"><p>Offriamo corsi in presenza e online tramite piattaforma e‑learning. La modalità viene scelta in funzione delle esigenze e degli obblighi normativi.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">Come garantite la riservatezza dei dati?</div>
+                <div class="faq-answer"><p>Trattiamo i dati secondo il GDPR, adottando misure tecniche e organizzative adeguate. Le informazioni sono usate solo per fornire i servizi richiesti.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">Quali tempi per l’accreditamento sanitario?</div>
+                <div class="faq-answer"><p>I tempi dipendono dalla tipologia di struttura e dalla Regione. Grazie alla nostra esperienza ottimizziamo l’iter e ti accompagniamo fino al rilascio dell’autorizzazione e dell’accreditamento.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">Posso richiedere un audit senza impegno?</div>
+                <div class="faq-answer"><p>Sì, offriamo audit preliminari per valutare la tua conformità e fornirti un piano d’azione mirato.</p></div>
+            </div>
+        </div>
+    </section>
+    <!-- Contatti -->
+    <section id="contatti" class="light-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Contattaci</h2>
+                <p>Richiedi informazioni, preventivi o prenota una call</p>
+            </div>
+            <form class="contact-grid reveal" onsubmit="event.preventDefault(); alert('Grazie per la tua richiesta. Ti contatteremo al più presto!'); this.reset();">
+                <div>
+                    <label for="nome">Nome*</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div>
+                    <label for="cognome">Cognome*</label>
+                    <input type="text" id="cognome" name="cognome" required>
+                </div>
+                <div>
+                    <label for="email">Email*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="azienda">Azienda / Ente</label>
+                    <input type="text" id="azienda" name="azienda">
+                </div>
+                <div style="grid-column: span 2;">
+                    <label for="messaggio">Messaggio*</label>
+                    <textarea id="messaggio" name="messaggio" required></textarea>
+                </div>
+                <button type="submit">Invia richiesta</button>
+            </form>
+            <div class="contact-info-box reveal">
+                <p><strong>Indirizzo:</strong> Via Franco Ferrini, 72 – 53035 Monteriggioni (SI)</p>
+                <p><strong>Telefono:</strong> 0577 555208</p>
+                <p><strong>Email:</strong> <a href="mailto:info@landozziconsultingsrl.com">info@landozziconsultingsrl.com</a> | <strong>PEC:</strong> <a href="mailto:landozziconsultingsrl@pec.it">landozziconsultingsrl@pec.it</a></p>
+            </div>
+        </div>
+    </section>
+    <!-- Pro Tip: sezione aggiuntiva per suggerimenti su hosting e animazioni
+         Questa sezione è pensata come una guida per utenti avanzati -->
+    <section id="protip" class="dark-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Pro Tip</h2>
+                <p>Come migliorare e ospitare il tuo sito</p>
+            </div>
+            <div class="reveal">
+                <p>Per ospitare questo sito puoi utilizzare servizi di hosting statico come GitHub Pages, Netlify o Vercel: basterà caricare il file HTML e il sito sarà online in pochi minuti.</p>
+                <p>Se desideri arricchire le animazioni senza appesantire il codice, puoi integrare librerie leggere come <strong>AOS.js</strong> (Animate On Scroll) o <strong>GSAP</strong>. Entrambe consentono di animare gli elementi quando entrano nel viewport con pochi attributi o righe di codice. Ricorda di includere i relativi script e di definire animazioni sobrie per mantenere un look professionale.</p>
+                <p>Esplora palette di colori su <a href="https://coolors.co/">Coolors</a> per trovare combinazioni armoniose che rispecchiano l’identità della tua azienda.</p>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Landozzi Consulting Srl – C.F. e P.IVA 01585840521 – REA SI-217748</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Cookie Policy</a> | <a href="#">Note legali</a></p>
+    </footer>
+    <!-- Chatbot -->
+    <div id="chatbot-toggle">💬</div>
+    <div id="chatbot-window">
+        <div id="chatbot-header">Landozzi Assistant – Chatbot</div>
+        <div id="chatbot-messages"></div>
+        <div id="chatbot-input-area">
+            <input type="text" id="chatbot-input" placeholder="Scrivi il tuo messaggio…">
+            <button id="chatbot-send">Invia</button>
+        </div>
+    </div>
+    <script>
+        // Abilita la visualizzazione del chatbot al click sul pulsante
+        const cbToggle = document.getElementById('chatbot-toggle');
+        const cbWindow = document.getElementById('chatbot-window');
+        cbToggle.addEventListener('click', () => {
+            cbWindow.style.display = cbWindow.style.display === 'flex' ? 'none' : 'flex';
+            if (cbWindow.style.display === 'flex') {
+                cbWindow.style.flexDirection = 'column';
+            }
+        });
+        // FAQ accordion: apertura/chiusura delle risposte
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                q.classList.toggle('active');
+                const answer = q.nextElementSibling;
+                if (answer.style.maxHeight) {
+                    answer.style.maxHeight = null;
+                } else {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+        // Chatbot semplice con risposte predefinite
+        const cbInput = document.getElementById('chatbot-input');
+        const cbSend = document.getElementById('chatbot-send');
+        const cbMessages = document.getElementById('chatbot-messages');
+        function addChatMessage(text, sender) {
+            const msg = document.createElement('div');
+            msg.classList.add('chat-message', sender);
+            const bubble = document.createElement('div');
+            bubble.classList.add('chat-bubble');
+            bubble.textContent = text;
+            msg.appendChild(bubble);
+            cbMessages.appendChild(msg);
+            cbMessages.scrollTop = cbMessages.scrollHeight;
+        }
+        function botResponse(message) {
+            const lower = message.toLowerCase();
+            if (lower.includes('servizi')) {
+                return 'Offriamo consulenza su sicurezza, privacy, cybersecurity, HACCP, sistemi di certificazione, accreditamento sanitario e formazione.';
+            }
+            if (lower.includes('orari') || lower.includes('apertura')) {
+                return 'I nostri uffici sono aperti dal lunedì al venerdì dalle 9 alle 18.';
+            }
+            if (lower.includes('corso') || lower.includes('formazione')) {
+                return 'Organizziamo corsi RSPP, primo soccorso, antincendio, attrezzature, HACCP, privacy e molti altri. Consulta la sezione Formazione.';
+            }
+            if (lower.includes('preventivo') || lower.includes('costo')) {
+                return 'Per un preventivo gratuito compila il modulo nella sezione Contatti. Ti risponderemo rapidamente.';
+            }
+            if (lower.includes('contatto') || lower.includes('call')) {
+                return 'Puoi chiamarci allo 0577 555208 o inviare una mail a info@landozziconsultingsrl.com per fissare una call.';
+            }
+            return 'Grazie per il tuo messaggio. Un consulente ti risponderà al più presto.';
+        }
+        function sendMessage() {
+            const text = cbInput.value.trim();
+            if (!text) return;
+            addChatMessage(text, 'user');
+            cbInput.value = '';
+            setTimeout(() => {
+                addChatMessage(botResponse(text), 'ai');
+            }, 500);
+        }
+        cbSend.addEventListener('click', sendMessage);
+        cbInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        // Animazione reveal per elementi al scroll utilizzando IntersectionObserver
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        reveals.forEach(r => {
+            observer.observe(r);
+        });
+    </script>
+</body>
+</html>
