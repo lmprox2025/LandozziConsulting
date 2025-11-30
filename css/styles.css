@@ -625,3 +625,161 @@
         body.device-phone .section-title p {
             font-size: 0.95rem;
         }
+        .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+}
+
+/* Bottone hamburger */
+.menu-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(0, 0, 0, 0.06);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: #222;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* Overlay schermo intero */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 16, 32, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    z-index: 999;
+}
+
+.menu-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Pannello menu */
+.menu-panel {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 2.5rem 3rem;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+    transform: translateY(16px) scale(0.96);
+    opacity: 0;
+    animation: menuIn 0.3s ease-out forwards;
+    position: relative;
+}
+
+.menu-panel h2 {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    font-size: 1.4rem;
+}
+
+/* Bottone chiusura X */
+.menu-close {
+    position: absolute;
+    top: 0.9rem;
+    right: 1.1rem;
+    border: none;
+    background: transparent;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #444;
+}
+
+/* Link del menu */
+.menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menu-nav a {
+    padding: 0.45rem 0.1rem;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #222;
+    position: relative;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.menu-nav a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 16px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #0058b0, #00a2ff);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+}
+
+.menu-nav a:hover {
+    color: #0058b0;
+    transform: translateX(4px);
+}
+
+.menu-nav a:hover::before {
+    transform: scaleX(1);
+}
+
+/* Animazione pannello in entrata */
+@keyframes menuIn {
+    from {
+        transform: translateY(20px) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Evita lo scroll della pagina quando il menu è aperto */
+body.menu-open {
+    overflow: hidden;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+    .menu-panel {
+        padding: 2rem 1.75rem;
+        border-radius: 20px;
+    }
+    .menu-panel h2 {
+        font-size: 1.2rem;
+    }
+    .menu-nav a {
+        font-size: 0.95rem;
+    }
+}

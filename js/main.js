@@ -64,4 +64,70 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // ====== MENU INTERATTIVO ======
+    (function () {
+        const toggle = document.getElementById('menu-toggle');
+        const overlay = document.getElementById('menu-overlay');
+        const closeBtn = document.getElementById('menu-close');
+
+        if (!toggle || !overlay) return;
+
+        function openMenu() {
+            overlay.classList.add('open');
+            document.body.classList.add('menu-open');
+            overlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeMenu() {
+            overlay.classList.remove('open');
+            document.body.classList.remove('menu-open');
+            overlay.setAttribute('aria-hidden', 'true');
+        }
+    
+        toggle.addEventListener('click', openMenu);
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeMenu);
+        }
+    
+        // Chiudi cliccando fuori dal pannello
+        overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) {
+                closeMenu();
+            }
+        });
+    
+        // ESC per chiudere
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+            closeMenu();
+            }
+        });
+
+    // Gestione click sui link del menu (chiusura + smooth scroll se stesso file)
+        const links = overlay.querySelectorAll('.menu-nav a');
+
+        links.forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = link.getAttribute('href');
+                // Se è un link solo ad un anchor sulla stessa pagina, fai smooth scroll
+                try {
+                    const url = new URL(href, window.location.href);
+                    const samePage = url.pathname === window.location.pathname;
+    
+                    if (samePage && url.hash) {
+                        e.preventDefault();
+                        const target = document.querySelector(url.hash);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                } catch (err) {
+                    // in caso di URL strano, lascio fare al browser
+                }
+    
+                closeMenu();
+            });
+        });
+    })();
+
 });

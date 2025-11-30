@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodo e Team – Landozzi Consulting Srl</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <!-- CSS personalizzato -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="container">
+            <span class="contact-info">
+                <span>📍 Monteriggioni (SI)</span>
+                <span>| Tel. 0577 555208</span>
+                <span>| <a href="mailto:info@landozziconsultingsrl.com">info@landozziconsultingsrl.com</a></span>
+            </span>
+            <span class="social-top">
+                <a href="#" aria-label="Facebook">F</a>
+                <a href="#" aria-label="LinkedIn">in</a>
+                <a href="https://www.instagram.com/landozziconsultingsrl"
+                   target="_blank" rel="noopener noreferrer" aria-label="Instagram">@</a>
+            </span>
+        </div>
+    </div>
+
+    <!-- HEADER + MENU -->
+    <header>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/logo.png" alt="Landozzi Consulting Srl - Servizi di formazione e consulenza alle imprese">
+            </div>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Apri il menu di navigazione">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="menu-overlay" id="menu-overlay" aria-hidden="true">
+        <div class="menu-panel" role="dialog" aria-modal="true" aria-labelledby="menu-title">
+            <button class="menu-close" id="menu-close" aria-label="Chiudi menu">×</button>
+            <h2 id="menu-title" class="title is-4">Naviga il sito</h2>
+            <nav class="menu-nav">
+                <a href="index.html#hero">Home</a>
+                <a href="index.html#chi-siamo">Chi Siamo</a>
+                <a href="index.html#punti-forza">Punti di forza</a>
+                <a href="servizi-settori.html#servizi">Servizi</a>
+                <a href="servizi-settori.html#settori">Settori</a>
+                <a href="metodo-team.html#metodo">Metodo</a>
+                <a href="metodo-team.html#team">Team</a>
+                <a href="testimonianze-news.html#testimonianze">Testimonianze</a>
+                <a href="testimonianze-news.html#news">News</a>
+                <a href="faq-contatti.html#faq">FAQ</a>
+                <a href="faq-contatti.html#contatti">Contatti</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- METODO -->
+    <section id="metodo" class="dark-section section">
+        <div class="container">
+            <div class="section-title reveal has-text-centered">
+                <h2 class="title is-3">Il nostro metodo</h2>
+                <p class="subtitle is-5">Un processo strutturato per risultati concreti</p>
+            </div>
+            <div class="method-steps columns is-multiline">
+                <div class="method-step reveal column is-full-mobile is-one-fifth-desktop">
+                    <div class="box has-text-centered">
+                        <div class="step-number">1</div>
+                        <h4 class="title is-5">Analisi</h4>
+                        <p>Raccolta informazioni, valutazione del contesto e identificazione dei rischi.</p>
+                    </div>
+                </div>
+                <div class="method-step reveal column is-full-mobile is-one-fifth-desktop">
+                    <div class="box has-text-centered">
+                        <div class="step-number">2</div>
+                        <h4 class="title is-5">Pianificazione</h4>
+                        <p>Definizione degli obiettivi, del piano d’azione e delle risorse necessarie.</p>
+                    </div>
+                </div>
+                <div class="method-step reveal column is-full-mobile is-one-fifth-desktop">
+                    <div class="box has-text-centered">
+                        <div class="step-number">3</div>
+                        <h4 class="title is-5">Attuazione</h4>
+                        <p>Implementazione delle misure: documenti, procedure, formazione, soluzioni tecniche.</p>
+                    </div>
+                </div>
+                <div class="method-step reveal column is-full-mobile is-one-fifth-desktop">
+                    <div class="box has-text-centered">
+                        <div class="step-number">4</div>
+                        <h4 class="title is-5">Formazione</h4>
+                        <p>Trasferiamo le competenze al personale con corsi dedicati e pratici.</p>
+                    </div>
+                </div>
+                <div class="method-step reveal column is-full-mobile is-one-fifth-desktop">
+                    <div class="box has-text-centered">
+                        <div class="step-number">5</div>
+                        <h4 class="title is-5">Monitoraggio</h4>
+                        <p>Verifica periodica dei risultati, audit e miglioramento continuo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" class="light-section section">
+        <div class="container">
+            <div class="section-title reveal has-text-centered">
+                <h2 class="title is-3">Il nostro team</h2>
+                <p class="subtitle is-5">Professionalità e competenze al tuo servizio</p>
+            </div>
+            <div class="team-grid columns is-multiline">
+                <div class="team-member reveal column is-half-tablet is-one-quarter-desktop">
+                    <div class="box has-text-centered">
+                        <figure class="image is-128x128 is-inline-block">
+                            <img src="assets/team1.png" alt="Foto membro team">
+                        </figure>
+                        <h4 class="title is-5">Luca B.</h4>
+                        <p>Responsabile sicurezza sul lavoro</p>
+                    </div>
+                </div>
+                <div class="team-member reveal column is-half-tablet is-one-quarter-desktop">
+                    <div class="box has-text-centered">
+                        <figure class="image is-128x128 is-inline-block">
+                            <img src="assets/team2.png" alt="Foto membro team">
+                        </figure>
+                        <h4 class="title is-5">Maria S.</h4>
+                        <p>Esperta privacy e DPO</p>
+                    </div>
+                </div>
+                <div class="team-member reveal column is-half-tablet is-one-quarter-desktop">
+                    <div class="box has-text-centered">
+                        <figure class="image is-128x128 is-inline-block">
+                            <img src="assets/team3.png" alt="Foto membro team">
+                        </figure>
+                        <h4 class="title is-5">Giovanni R.</h4>
+                        <p>Specialista cybersecurity</p>
+                    </div>
+                </div>
+                <div class="team-member reveal column is-half-tablet is-one-quarter-desktop">
+                    <div class="box has-text-centered">
+                        <figure class="image is-128x128 is-inline-block">
+                            <img src="assets/team4.png" alt="Foto membro team">
+                        </figure>
+                        <h4 class="title is-5">Elisa G.</h4>
+                        <p>Consulente HACCP e sistemi di gestione</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>&copy; 2025 Landozzi Consulting Srl – C.F. e P.IVA 01585840521 – REA SI-217748</p>
+            <p>
+                <a href="privacy.html">Privacy Policy</a> |
+                <a href="cookie.html">Cookie Policy</a> |
+                <a href="note-legali.html">Note legali</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- CHATBOT -->
+    <div id="chatbot-toggle">💬</div>
+    <div id="chatbot-window">
+        <div id="chatbot-header">Landozzi Assistant – Chatbot</div>
+        <div id="chatbot-messages"></div>
+        <div id="chatbot-input-area">
+            <input type="text" id="chatbot-input" placeholder="Scrivi il tuo messaggio…">
+            <button id="chatbot-send">Invia</button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>
