@@ -10,6 +10,7 @@
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         :root {
             --primary-color: #0A1F44;
             --secondary-color: #167BAF;
@@ -645,6 +646,8 @@
 
 /* Bottone hamburger */
 =======
+=======
+>>>>>>> Stashed changes
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -1376,6 +1379,9 @@ body.device-phone .section-title p {
 
 /* Bottone menu con icona css.gg */
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 .menu-toggle {
     width: 40px;
@@ -1387,13 +1393,17 @@ body.device-phone .section-title p {
     align-items: center;
     justify-content: center;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     gap: 3px;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 .menu-toggle span {
     display: block;
@@ -1406,6 +1416,8 @@ body.device-phone .section-title p {
 
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 .menu-toggle:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
@@ -1413,8 +1425,11 @@ body.device-phone .section-title p {
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /* Overlay schermo intero */
 =======
+=======
+>>>>>>> Stashed changes
 /* Icona menu css.gg */
 
 .gg-menu-boxed {
@@ -1452,6 +1467,9 @@ body.device-phone .section-title p {
 
 /* Overlay schermo intero */
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 .menu-overlay {
     position: fixed;
@@ -1473,6 +1491,10 @@ body.device-phone .section-title p {
 
 /* Pannello menu */
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -1497,6 +1519,10 @@ body.device-phone .section-title p {
 
 /* Bottone chiusura X */
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -1514,6 +1540,10 @@ body.device-phone .section-title p {
 
 /* Link del menu */
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -1557,6 +1587,10 @@ body.device-phone .section-title p {
 
 /* Animazione pannello in entrata */
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -1573,6 +1607,10 @@ body.device-phone .section-title p {
 
 /* Evita lo scroll della pagina quando il menu è aperto */
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -1581,7 +1619,12 @@ body.menu-open {
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /* Responsivo */
+=======
+/* Responsivo menu */
+
+>>>>>>> Stashed changes
 =======
 /* Responsivo menu */
 
@@ -1592,22 +1635,31 @@ body.menu-open {
         border-radius: 20px;
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     .menu-panel h2 {
         font-size: 1.2rem;
     }
 =======
+=======
+>>>>>>> Stashed changes
 
     .menu-panel h2 {
         font-size: 1.2rem;
     }
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     .menu-nav a {
         font-size: 0.95rem;
     }
 }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 /* === PAGE LOADER (css.gg loadbar-alt) === */
 
 @keyframes loadbaralt {
@@ -1676,4 +1728,7 @@ body.menu-open {
 body.page-loading #page-loader {
   display: flex;
 }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

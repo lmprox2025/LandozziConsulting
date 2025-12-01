@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
           el.classList.add('visible');
         }
       });
+<<<<<<< Updated upstream
     }
 <<<<<<< Updated upstream
     // ====== MENU INTERATTIVO ======
@@ -197,6 +198,58 @@ document.addEventListener('DOMContentLoaded', () => {
     ) {
       return;
     }
+=======
+    }
+    window.addEventListener('scroll', onScrollReveal);
+    onScrollReveal();
+  }
+
+  /* ===== FAQ ACCORDION ===== */
+  document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+      question.classList.toggle('active');
+      const answer = question.nextElementSibling;
+      if (!answer) return;
+      if (answer.style.maxHeight) {
+        answer.style.maxHeight = null;
+      } else {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ===== PAGE LOADER ===== */
+  const pageLoader = document.getElementById('page-loader');
+
+  function showLoader() {
+    if (!pageLoader) return;
+    body.classList.add('page-loading');
+  }
+
+  function hideLoader() {
+    if (!pageLoader) return;
+    body.classList.remove('page-loading');
+  }
+
+  // Assicurati che all'arrivo sulla pagina sia nascosto
+  hideLoader();
+
+  // Mostra la barra quando clicchi su un link di navigazione
+  const links = document.querySelectorAll('a[href]');
+
+  links.forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    // evita mail, tel e target _blank
+    if (
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:') ||
+      link.target === '_blank'
+    ) {
+      return;
+    }
+>>>>>>> Stashed changes
 
     link.addEventListener('click', (e) => {
       // anchor sulla stessa pagina (#qualcosa)
@@ -228,4 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
     body.classList.add('device-phone');
   }
 });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
