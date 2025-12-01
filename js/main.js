@@ -1,67 +1,161 @@
 document.addEventListener('DOMContentLoaded', () => {
-    function updateDeviceClass() {
-        const width = window.innerWidth;
-        const body = document.body;
-        body.classList.remove('device-pc', 'device-tablet', 'device-phone');
-        if (width < 768) {
-            body.classList.add('device-phone');
-        } else if (width < 1024) {
-            body.classList.add('device-tablet');
-        } else {
-            body.classList.add('device-pc');
+  const body = document.body;
+
+  /* ===== MENU INTERATTIVO ===== */
+  const menuToggle = document.getElementById('menu-toggle');
+  const menuOverlay = document.getElementById('menu-overlay');
+  const menuClose = document.getElementById('menu-close');
+
+  function openMenu() {
+    if (!menuOverlay) return;
+    menuOverlay.classList.add('open');
+    body.classList.add('menu-open');
+  }
+
+  function closeMenu() {
+    if (!menuOverlay) return;
+    menuOverlay.classList.remove('open');
+    body.classList.remove('menu-open');
+  }
+
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      if (menuOverlay && menuOverlay.classList.contains('open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+  }
+
+  if (menuClose) {
+    menuClose.addEventListener('click', closeMenu);
+  }
+
+  if (menuOverlay) {
+    menuOverlay.addEventListener('click', (e) => {
+      if (e.target === menuOverlay) {
+        closeMenu();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMenu();
+    }
+  });
+
+  /* Chiudi menu quando clicchi un link nel pannello */
+  document.querySelectorAll('.menu-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      closeMenu();
+    });
+  });
+
+  /* ===== REVEAL ON SCROLL ===== */
+  const reveals = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
-    }
-    updateDeviceClass();
-    window.addEventListener('resize', updateDeviceClass);
-    document.querySelectorAll('.faq-question').forEach(q => {
-        q.addEventListener('click', () => {
-            q.classList.toggle('active');
-            const answer = q.nextElementSibling;
-            if (answer.style.maxHeight) {
-                answer.style.maxHeight = null;
-            } else {
-                answer.style.maxHeight = answer.scrollHeight + 'px';
-            }
-        });
-    });
+      });
+    }, { threshold: 0.15 });
 
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.2 });
-    reveals.forEach(r => {
-        observer.observe(r);
-    });
-
-    const contactForm = document.querySelector('#contatti form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(contactForm);
-            const data = Object.fromEntries(formData.entries());
-            try {
-                const response = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-                if (response.ok) {
-                    alert('Grazie per la tua richiesta. Ti contatteremo al più presto!');
-                    contactForm.reset();
-                } else {
-                    alert('Si è verificato un errore durante l\'invio. Riprova più tardi.');
-                }
-            } catch (error) {
-                console.error(error);
-                alert('Si è verificato un problema di rete.');
-            }
-        });
+    reveals.forEach(el => observer.observe(el));
+  } else {
+    // fallback
+    function onScrollReveal() {
+      const windowBottom = window.innerHeight + window.scrollY;
+      reveals.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const top = rect.top + window.scrollY;
+        if (windowBottom > top + rect.height * 0.15) {
+          el.classList.add('visible');
+        }
+      });
     }
+    window.addEventListener('scroll', onScrollReveal);
+    onScrollReveal();
+  }
+
+  /* ===== FAQ ACCORDION ===== */
+  document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+      question.classList.toggle('active');
+      const answer = question.nextElementSibling;
+      if (!answer) return;
+      if (answer.style.maxHeight) {
+        answer.style.maxHeight = null;
+      } else {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ===== PAGE LOADER ===== */
+  const pageLoader = document.getElementById('page-loader');
+
+  function showLoader() {
+    if (!pageLoader) return;
+    body.classList.add('page-loading');
+  }
+
+  function hideLoader() {
+    if (!pageLoader) return;
+    body.classList.remove('page-loading');
+  }
+
+  // Assicurati che all'arrivo sulla pagina sia nascosto
+  hideLoader();
+
+  // Mostra la barra quando clicchi su un link di navigazione
+  const links = document.querySelectorAll('a[href]');
+
+  links.forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    // evita mail, tel e target _blank
+    if (
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:') ||
+      link.target === '_blank'
+    ) {
+      return;
+    }
+
+    link.addEventListener('click', (e) => {
+      // anchor sulla stessa pagina (#qualcosa)
+      if (href.charAt(0) === '#') {
+        showLoader();
+        // finto caricamento breve
+        setTimeout(hideLoader, 500);
+        return;
+      }
+
+      // navigazione verso un'altra pagina .html
+      showLoader();
+      // la pagina si ricaricherà e il loader sparirà sul nuovo DOM
+    });
+  });
+
+  // Se il browser usa bfcache (back/forward), nascondi il loader quando torni
+  window.addEventListener('pageshow', () => {
+    hideLoader();
+  });
+
+  /* ===== DEVICE CLASSES (opzionale, se le usi) ===== */
+  const w = window.innerWidth;
+  if (w >= 1024) {
+    body.classList.add('device-pc');
+  } else if (w >= 768) {
+    body.classList.add('device-tablet');
+  } else {
+    body.classList.add('device-phone');
+  }
 });
